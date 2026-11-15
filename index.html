@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infinite Lighting — Architectural, Ambient &amp; Exterior Lighting</title>
+<meta name="description" content="Infinite Lighting: an ever-growing catalogue of architectural LED strips, bedroom ambient lighting, commercial fixtures and exterior lighting — real products, real prices.">
+<style>
+  :root{
+    --ivory:#FAF6EF;
+    --ivory-2:#FFFDF8;
+    --ink:#33302B;
+    --ink-soft:#5C564C;
+    --gold:#7A5C1E;
+    --gold-bright:#B08A2E;
+    --border:#DCD2C9;
+    --border-blush:#E3D5CE;
+    --chip-bg:#F1EADD;
+    --shadow:0 2px 10px rgba(51,48,43,.08);
+    --shadow-lg:0 12px 40px rgba(51,48,43,.18);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--ivory);color:var(--ink);
+    font-family:"Google Sans",Roboto,"Segoe UI",Arial,sans-serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--gold)}
+  button{font-family:inherit;cursor:pointer}
+  :focus-visible{outline:3px solid var(--gold-bright);outline-offset:2px;border-radius:6px}
+  .skip-link{position:absolute;left:-999px;top:0;background:var(--ink);color:#fff;padding:10px 16px;z-index:200;border-radius:0 0 10px 0}
+  .skip-link:focus{left:0}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:60;background:rgba(250,246,239,.96);
+    backdrop-filter:blur(6px);border-bottom:1px solid var(--border);
+  }
+  .header-in{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin-right:4px}
+  .brand-mark{width:34px;height:34px;border-radius:50%;border:2px solid var(--gold);display:grid;place-items:center;color:var(--gold);font-size:18px;background:var(--ivory-2)}
+  .brand-name{font-size:21px;font-weight:600;letter-spacing:.2px;white-space:nowrap}
+  .brand-name em{font-style:normal;color:var(--gold)}
+  .search-wrap{flex:1 1 240px;display:flex}
+  .search-wrap label{position:absolute;left:-9999px}
+  #search{
+    width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:999px;
+    background:var(--ivory-2);font-size:15px;color:var(--ink);
+  }
+  .board-btn{
+    border:1px solid var(--gold);background:var(--gold);color:#fff;border-radius:999px;
+    padding:10px 18px;font-size:15px;font-weight:600;display:inline-flex;gap:8px;align-items:center;
+  }
+  .board-btn .count{background:#fff;color:var(--gold);border-radius:999px;min-width:24px;height:24px;display:grid;place-items:center;font-size:13px;padding:0 6px}
+
+  main{max-width:1200px;margin:0 auto;padding:0 16px 64px}
+
+  /* ---------- hero ---------- */
+  .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center;padding:36px 0 8px}
+  .hero h1{font-size:clamp(30px,4.5vw,46px);line-height:1.12;margin:0 0 12px;font-weight:600}
+  .hero h1 .gold{color:var(--gold)}
+  .hero p{font-size:17px;color:var(--ink-soft);margin:0 0 20px;max-width:52ch}
+  .hero-shortcuts{display:flex;flex-wrap:wrap;gap:10px}
+  .hero-shortcuts button{
+    border:1px solid var(--border);background:var(--ivory-2);color:var(--ink);
+    padding:9px 16px;border-radius:999px;font-size:14px;font-weight:500;
+  }
+  .hero-shortcuts button:hover{border-color:var(--gold);color:var(--gold)}
+  .hero-img{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border-blush);box-shadow:var(--shadow)}
+  .hero-img img{width:100%;height:100%;max-height:340px;object-fit:cover;display:block}
+
+  /* ---------- trust strip ---------- */
+  .trust{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:26px 0 6px}
+  .trust div{background:var(--ivory-2);border:1px solid var(--border-blush);border-radius:var(--radius);padding:14px 16px;font-size:14px;font-weight:500;display:flex;gap:10px;align-items:center}
+  .trust .dot{color:var(--gold);font-size:17px}
+
+  /* ---------- chips / catalogue ---------- */
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 18px}
+  .chip{
+    border:1px solid var(--border);background:var(--ivory-2);color:var(--ink);
+    padding:9px 18px;border-radius:999px;font-size:15px;font-weight:500;
+  }
+  .chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+  .card{
+    background:var(--ivory-2);border:1px solid var(--border-blush);border-radius:var(--radius);
+    overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;text-align:left;
+    padding:0;transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+  .card img{width:100%;height:210px;object-fit:cover;display:block;background:#EFE9DD}
+  .card-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .card-cat{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .card-name{font-size:16px;font-weight:600;line-height:1.35}
+  .card-retail{font-size:13px;color:var(--ink-soft)}
+  .card-row{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:8px}
+  .price{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums}
+  .add-btn{
+    border:1px solid var(--gold);background:transparent;color:var(--gold);border-radius:999px;
+    padding:8px 14px;font-size:14px;font-weight:600;white-space:nowrap;
+  }
+  .add-btn:hover,.add-btn.added{background:var(--gold);color:#fff}
+  #sentinel{height:8px}
+  .end-line,.no-results{text-align:center;color:var(--ink-soft);padding:26px 0 4px;font-size:15px}
+  .drag-hint{font-size:13px;color:var(--ink-soft);margin:0 0 12px}
+
+  /* ---------- visualizer ---------- */
+  .viz{
+    margin-top:48px;background:var(--ivory-2);border:1px solid var(--border-blush);
+    border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);
+  }
+  .viz h2{margin:0 0 6px;font-size:24px}
+  .viz .sub{color:var(--ink-soft);margin:0 0 18px;max-width:65ch}
+  .viz-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+  .viz-preview{
+    border:1px dashed var(--border);border-radius:var(--radius);min-height:190px;
+    display:grid;place-items:center;text-align:center;padding:20px;color:var(--ink-soft);
+    background:linear-gradient(160deg,#FFF8EA,#F6EEE0);
+  }
+  .viz-preview .big{font-size:17px;font-weight:600;color:var(--ink)}
+  .kelvin-swatch{height:54px;border-radius:10px;border:1px solid var(--border);margin:12px 0 6px;transition:background .15s}
+  input[type="range"]{width:100%;accent-color:var(--gold)}
+  .kelvin-val{font-weight:700;font-variant-numeric:tabular-nums}
+  .viz-status{
+    margin-top:16px;background:var(--chip-bg);border:1px solid var(--border-blush);
+    border-radius:10px;padding:12px 16px;font-size:14px;font-weight:500;
+  }
+  .viz button[disabled]{opacity:.55;cursor:not-allowed}
+  .upload-btn{border:1px solid var(--gold);background:transparent;color:var(--gold);border-radius:999px;padding:9px 18px;font-weight:600;font-size:14px}
+
+  /* ---------- board drawer ---------- */
+  .board-overlay{position:fixed;inset:0;background:rgba(51,48,43,.45);z-index:80;opacity:0;pointer-events:none;transition:opacity .2s}
+  .board-overlay.open{opacity:1;pointer-events:auto}
+  .board{
+    position:fixed;top:0;right:0;height:100dvh;width:min(430px,94vw);background:var(--ivory-2);z-index:90;
+    transform:translateX(105%);transition:transform .25s ease;box-shadow:var(--shadow-lg);
+    display:flex;flex-direction:column;border-left:1px solid var(--border);
+  }
+  .board.open{transform:translateX(0)}
+  .board.drag-over{box-shadow:inset 0 0 0 3px var(--gold-bright), var(--shadow-lg)}
+  .board-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border)}
+  .board-head h2{margin:0;font-size:19px}
+  .icon-btn{border:1px solid var(--border);background:var(--ivory);border-radius:50%;width:36px;height:36px;font-size:16px;line-height:1}
+  .board-body{padding:16px 18px;overflow-y:auto;flex:1}
+  .board-body label{font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft)}
+  #bundleName{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:15px;margin:6px 0 16px;background:#fff}
+  .board-empty{color:var(--ink-soft);font-size:15px;border:1px dashed var(--border);border-radius:10px;padding:18px;text-align:center}
+  .line{display:grid;grid-template-columns:56px 1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid var(--border-blush);align-items:center}
+  .line img{width:56px;height:56px;object-fit:cover;border-radius:8px;border:1px solid var(--border-blush)}
+  .line-name{font-size:14px;font-weight:600;line-height:1.3}
+  .line-meta{font-size:13px;color:var(--ink-soft)}
+  .qty{display:inline-flex;align-items:center;gap:8px;margin-top:6px}
+  .qty button{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);background:var(--ivory);font-size:15px;line-height:1}
+  .line-right{text-align:right}
+  .line-total{font-weight:700;font-variant-numeric:tabular-nums}
+  .remove-btn{border:none;background:none;color:var(--gold);font-size:13px;text-decoration:underline;padding:4px 0}
+  .board-foot{padding:16px 18px;border-top:1px solid var(--border)}
+  .bundle-total{display:flex;justify-content:space-between;font-size:17px;font-weight:700;margin-bottom:12px;font-variant-numeric:tabular-nums}
+  .save-btn{width:100%;background:var(--gold);color:#fff;border:none;border-radius:999px;padding:13px;font-size:16px;font-weight:600}
+  .clear-btn{width:100%;background:none;border:none;color:var(--ink-soft);text-decoration:underline;padding:10px;font-size:14px}
+  .board-note{font-size:13px;color:var(--ink-soft);margin:10px 0 0;text-align:center}
+  .save-confirm{font-size:14px;color:var(--gold);font-weight:600;text-align:center;margin:10px 0 0;min-height:20px}
+
+  /* ---------- quick view modal ---------- */
+  .modal-overlay{position:fixed;inset:0;background:rgba(51,48,43,.5);z-index:100;display:none;place-items:center;padding:16px}
+  .modal-overlay.open{display:grid}
+  .modal{background:var(--ivory-2);border-radius:16px;max-width:640px;width:100%;max-height:92dvh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+  .modal img{width:100%;height:320px;object-fit:cover;display:block;border-radius:16px 16px 0 0;background:#EFE9DD}
+  .modal-body{padding:20px 22px 24px}
+  .modal-body h2{margin:4px 0 8px;font-size:22px;line-height:1.3}
+  .modal-price{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+  .modal-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+  .modal-actions .add-btn{padding:11px 20px;font-size:15px}
+  .retail-link{display:inline-block;padding:11px 20px;border-radius:999px;background:var(--gold);color:#fff;text-decoration:none;font-weight:600;font-size:15px}
+  .modal-close{position:sticky;top:10px;margin-left:calc(100% - 52px);z-index:2}
+
+  footer{border-top:1px solid var(--border);margin-top:56px}
+  .footer-in{max-width:1200px;margin:0 auto;padding:26px 16px 34px;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:flex-start}
+  .footer-in nav{display:flex;gap:16px;flex-wrap:wrap}
+  .footer-in nav button{background:none;border:none;color:var(--gold);font-size:14px;text-decoration:underline;padding:0}
+  .footer-note{color:var(--ink-soft);font-size:14px;width:100%}
+
+  @media (max-width:820px){
+    .hero{grid-template-columns:1fr;padding-top:24px}
+    .trust{grid-template-columns:1fr 1fr}
+    .viz-grid{grid-template-columns:1fr}
+    .brand-name{font-size:19px}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#catalogue">Skip to catalogue</a>
+
+<header>
+  <div class="header-in">
+    <a class="brand" href="#" aria-label="Infinite Lighting — home">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      <span class="brand-name">Infinite <em>Lighting</em></span>
+    </a>
+    <div class="search-wrap">
+      <label for="search">Search products</label>
+      <input id="search" type="search" aria-label="Search products by name" autocomplete="off">
+    </div>
+    <button class="board-btn" id="openBoard" aria-haspopup="dialog" aria-controls="board">
+      Mood Board <span class="count" id="boardCount" aria-label="items on board">0</span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <div>
+      <h1 id="heroTitle">Light, chosen <span class="gold">beautifully</span> — for every room and every facade.</h1>
+      <p>An ever-growing catalogue of architectural LED strips, warm bedroom ambient light, commercial fixtures and exterior lighting. Real products, real prices, gathered from trusted retailers.</p>
+      <div class="hero-shortcuts" role="group" aria-label="Shop by category">
+        <button data-cat="Architectural LED Strips">Architectural LED Strips</button>
+        <button data-cat="Bedroom Ambient">Bedroom Ambient</button>
+        <button data-cat="Commercial Fixtures">Commercial Fixtures</button>
+        <button data-cat="Exterior Lighting">Exterior Lighting</button>
+      </div>
+    </div>
+    <div class="hero-img">
+      <img id="heroImg" src="" alt="LED strip light glowing warmly">
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <section class="trust" aria-label="Our commitments">
+    <div><span class="dot" aria-hidden="true">✓</span> Real products &amp; real prices</div>
+    <div><span class="dot" aria-hidden="true">✓</span> Price &amp; stock re-verified before checkout</div>
+    <div><span class="dot" aria-hidden="true">✓</span> Secure checkout</div>
+    <div><span class="dot" aria-hidden="true">✓</span> Clear returns policy</div>
+  </section>
+
+  <!-- CATALOGUE -->
+  <section id="catalogue" aria-labelledby="catalogueTitle">
+    <h2 id="catalogueTitle" style="font-size:26px;margin:26px 0 4px">The catalogue</h2>
+    <p class="drag-hint">Tip: drag any product onto the Mood Board, or use its “Add to Board” button.</p>
+    <div class="chips" id="chips" role="group" aria-label="Filter by category"></div>
+    <div class="grid" id="grid" aria-live="polite"></div>
+    <div id="sentinel" aria-hidden="true"></div>
+    <p class="end-line" id="endLine" hidden></p>
+    <p class="no-results" id="noResults" hidden>No products match your search. Try a different name or category.</p>
+  </section>
+
+  <!-- AI VISUALIZER PREVIEW -->
+  <section class="viz" aria-labelledby="vizTitle">
+    <h2 id="vizTitle">See it in your room — AI Visualizer</h2>
+    <p class="sub">Soon, you will be able to upload a photo of your room and see a fixture rendered into it — with the light warmth set exactly the way you like it, from a cosy 2700K glow to a crisp 5000K daylight.</p>
+    <div class="viz-grid">
+      <div class="viz-preview" aria-hidden="true">
+        <div>
+          <div class="big">Your room, re-lit</div>
+          <div>Upload a room photo and preview fixtures in place — ceilings, walls and moldings mapped automatically.</div>
+        </div>
+      </div>
+      <div>
+        <label for="kelvin"><strong>Light warmth:</strong> <span class="kelvin-val" id="kelvinVal">2700K</span></label>
+        <div class="kelvin-swatch" id="kelvinSwatch" aria-hidden="true"></div>
+        <input type="range" id="kelvin" min="2700" max="5000" step="100" value="2700" aria-describedby="kelvinVal">
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--ink-soft)"><span>2700K · warm</span><span>5000K · daylight</span></div>
+        <p style="margin-top:16px"><button class="upload-btn" disabled aria-disabled="true">Upload a room photo</button></p>
+      </div>
+    </div>
+    <p class="viz-status" role="status">Arrives in Phase 3, when the AI rendering account is connected.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-in">
+    <a class="brand" href="#" aria-label="Infinite Lighting — back to top">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      <span class="brand-name">Infinite <em>Lighting</em></span>
+    </a>
+    <nav aria-label="Categories">
+      <button data-cat="Architectural LED Strips">Architectural LED Strips</button>
+      <button data-cat="Bedroom Ambient">Bedroom Ambient</button>
+      <button data-cat="Commercial Fixtures">Commercial Fixtures</button>
+      <button data-cat="Exterior Lighting">Exterior Lighting</button>
+    </nav>
+    <p class="footer-note">New store — catalogue growing weekly.</p>
+  </div>
+</footer>
+
+<!-- MOOD BOARD DRAWER -->
+<div class="board-overlay" id="boardOverlay"></div>
+<aside class="board" id="board" role="dialog" aria-modal="true" aria-labelledby="boardTitle" aria-hidden="true">
+  <div class="board-head">
+    <h2 id="boardTitle">Your Mood Board</h2>
+    <button class="icon-btn" id="closeBoard" aria-label="Close mood board">✕</button>
+  </div>
+  <div class="board-body" id="boardBody">
+    <label for="bundleName">Bundle name</label>
+    <input id="bundleName" type="text" autocomplete="off">
+    <div id="boardLines"></div>
+  </div>
+  <div class="board-foot">
+    <div class="bundle-total"><span>Bundle total</span><span id="bundleTotal">$0.00</span></div>
+    <button class="save-btn" id="saveBundle">Save bundle</button>
+    <p class="save-confirm" id="saveConfirm" role="status" aria-live="polite"></p>
+    <button class="clear-btn" id="clearBoard">Clear board</button>
+    <p class="board-note">Checkout with live supplier price &amp; stock verification arrives in the next phase.</p>
+  </div>
+</aside>
+
+<!-- QUICK VIEW MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalName">
+    <button class="icon-btn modal-close" id="closeModal" aria-label="Close quick view">✕</button>
+    <img id="modalImg" src="" alt="">
+    <div class="modal-body">
+      <div class="card-cat" id="modalCat"></div>
+      <h2 id="modalName"></h2>
+      <p class="card-retail" id="modalRetail"></p>
+      <p id="modalBlurb"></p>
+      <div class="modal-price" id="modalPrice"></div>
+      <div class="modal-actions">
+        <button class="add-btn" id="modalAdd">Add to Board</button>
+        <a class="retail-link" id="modalLink" href="#" target="_blank" rel="noopener">View at retailer</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="products.js"></script>
+<script>
+(function(){
+  "use strict";
+  var PRODUCTS = (window.IL_PRODUCTS || []).slice();
+  var CATEGORIES = ["All","Architectural LED Strips","Bedroom Ambient","Commercial Fixtures","Exterior Lighting"];
+  var PAGE_SIZE = 8;
+  var LS_BOARD = "il_board_v1", LS_NAME = "il_board_name_v1";
+
+  var state = { cat:"All", q:"", cursor:0 };
+  var grid = document.getElementById("grid");
+  var endLine = document.getElementById("endLine");
+  var noResults = document.getElementById("noResults");
+  var chipsEl = document.getElementById("chips");
+
+  /* hero image: first LED strip product photo (product-only imagery) */
+  var heroP = PRODUCTS.filter(function(p){return p.category==="Architectural LED Strips";})[0];
+  if (heroP) document.getElementById("heroImg").src = heroP.image;
+
+  function money(n){ return "$" + n.toFixed(2); }
+  function byId(id){ return PRODUCTS.filter(function(p){return p.id===id;})[0]; }
+
+  /* ---------- board state ---------- */
+  var board = {};
+  try { board = JSON.parse(localStorage.getItem(LS_BOARD) || "{}") || {}; } catch(e){ board = {}; }
+  Object.keys(board).forEach(function(id){ if(!byId(id)) delete board[id]; });
+
+  function persistBoard(){
+    localStorage.setItem(LS_BOARD, JSON.stringify(board));
+    localStorage.setItem(LS_NAME, document.getElementById("bundleName").value || "");
+  }
+  function boardCount(){ return Object.keys(board).reduce(function(s,id){return s+board[id];},0); }
+  function boardTotal(){ return Object.keys(board).reduce(function(s,id){return s + byId(id).price * board[id];},0); }
+
+  function renderBoard(){
+    document.getElementById("boardCount").textContent = boardCount();
+    var wrap = document.getElementById("boardLines");
+    wrap.innerHTML = "";
+    var ids = Object.keys(board);
+    if (!ids.length){
+      var empty = document.createElement("p");
+      empty.className = "board-empty";
+      empty.textContent = "Your board is empty. Drag products here, or use “Add to Board” on any product.";
+      wrap.appendChild(empty);
+    }
+    ids.forEach(function(id){
+      var p = byId(id), qty = board[id];
+      var line = document.createElement("div");
+      line.className = "line";
+      var img = document.createElement("img");
+      img.src = p.image; img.alt = p.name;
+      var mid = document.createElement("div");
+      var nm = document.createElement("div"); nm.className = "line-name"; nm.textContent = p.name;
+      var meta = document.createElement("div"); meta.className = "line-meta";
+      meta.textContent = money(p.price) + " · " + p.retailer;
+      var qtyBox = document.createElement("div"); qtyBox.className = "qty";
+      var minus = document.createElement("button"); minus.textContent = "−";
+      minus.setAttribute("aria-label","Decrease quantity of " + p.name);
+      minus.addEventListener("click", function(){ changeQty(id, -1); });
+      var qv = document.createElement("span"); qv.textContent = qty;
+      qv.setAttribute("aria-label","Quantity");
+      var plus = document.createElement("button"); plus.textContent = "+";
+      plus.setAttribute("aria-label","Increase quantity of " + p.name);
+      plus.addEventListener("click", function(){ changeQty(id, 1); });
+      qtyBox.appendChild(minus); qtyBox.appendChild(qv); qtyBox.appendChild(plus);
+      mid.appendChild(nm); mid.appendChild(meta); mid.appendChild(qtyBox);
+      var right = document.createElement("div"); right.className = "line-right";
+      var lt = document.createElement("div"); lt.className = "line-total"; lt.textContent = money(p.price * qty);
+      var rm = document.createElement("button"); rm.className = "remove-btn"; rm.textContent = "Remove";
+      rm.setAttribute("aria-label","Remove " + p.name + " from board");
+      rm.addEventListener("click", function(){ delete board[id]; persistBoard(); renderBoard(); });
+      right.appendChild(lt); right.appendChild(rm);
+      line.appendChild(img); line.appendChild(mid); line.appendChild(right);
+      wrap.appendChild(line);
+    });
+    document.getElementById("bundleTotal").textContent = money(boardTotal());
+  }
+  function changeQty(id, d){
+    board[id] = (board[id] || 0) + d;
+    if (board[id] <= 0) delete board[id];
+    persistBoard(); renderBoard();
+  }
+  function addToBoard(id, btn){
+    board[id] = (board[id] || 0) + 1;
+    persistBoard(); renderBoard();
+    if (btn){
+      var old = btn.textContent;
+      btn.textContent = "Added ✓"; btn.classList.add("added");
+      setTimeout(function(){ btn.textContent = old; btn.classList.remove("added"); }, 1200);
+    }
+  }
+
+  /* ---------- catalogue ---------- */
+  function filtered(){
+    var q = state.q.trim().toLowerCase();
+    return PRODUCTS.filter(function(p){
+      if (state.cat !== "All" && p.category !== state.cat) return false;
+      if (q && p.name.toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
+  }
+  function cardFor(p){
+    var card = document.createElement("article");
+    card.className = "card";
+    card.draggable = true;
+    card.tabIndex = 0;
+    card.setAttribute("role","button");
+    card.setAttribute("aria-label", "View " + p.name);
+    card.addEventListener("dragstart", function(e){
+      e.dataTransfer.setData("text/plain", p.id);
+      e.dataTransfer.effectAllowed = "copy";
+    });
+    card.addEventListener("click", function(){ openModal(p); });
+    card.addEventListener("keydown", function(e){ if(e.key==="Enter" || e.key===" "){ e.preventDefault(); openModal(p); } });
+
+    var img = document.createElement("img");
+    img.src = p.image; img.alt = p.name; img.loading = "lazy";
+    var body = document.createElement("div"); body.className = "card-body";
+    var cat = document.createElement("div"); cat.className = "card-cat"; cat.textContent = p.category;
+    var nm = document.createElement("div"); nm.className = "card-name"; nm.textContent = p.name;
+    var rt = document.createElement("div"); rt.className = "card-retail"; rt.textContent = "Sold by " + p.retailer;
+    var row = document.createElement("div"); row.className = "card-row";
+    var pr = document.createElement("span"); pr.className = "price"; pr.textContent = money(p.price);
+    var add = document.createElement("button"); add.className = "add-btn"; add.textContent = "Add to Board";
+    add.setAttribute("aria-label", "Add " + p.name + " to mood board");
+    add.addEventListener("click", function(e){ e.stopPropagation(); addToBoard(p.id, add); });
+    row.appendChild(pr); row.appendChild(add);
+    body.appendChild(cat); body.appendChild(nm); body.appendChild(rt); body.appendChild(row);
+    card.appendChild(img); card.appendChild(body);
+    return card;
+  }
+  function renderPage(){
+    var list = filtered();
+    var slice = list.slice(state.cursor, state.cursor + PAGE_SIZE);
+    slice.forEach(function(p){ grid.appendChild(cardFor(p)); });
+    state.cursor += slice.length;
+    noResults.hidden = list.length !== 0;
+    if (list.length && state.cursor >= list.length){
+      endLine.textContent = "You've seen all " + list.length + " products";
+      endLine.hidden = false;
+    } else {
+      endLine.hidden = true;
+    }
+  }
+  function resetCatalogue(){
+    state.cursor = 0;
+    grid.innerHTML = "";
+    renderPage();
+  }
+  var sentinel = document.getElementById("sentinel");
+  if ("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting && state.cursor < filtered().length) renderPage();
+      });
+    }, { rootMargin: "600px 0px" });
+    io.observe(sentinel);
+  }
+
+  /* ---------- chips & shortcuts ---------- */
+  CATEGORIES.forEach(function(c){
+    var b = document.createElement("button");
+    b.className = "chip"; b.textContent = c;
+    b.setAttribute("aria-pressed", c === "All" ? "true" : "false");
+    b.addEventListener("click", function(){ setCategory(c); });
+    chipsEl.appendChild(b);
+  });
+  function setCategory(c){
+    state.cat = c;
+    Array.prototype.forEach.call(chipsEl.children, function(b){
+      b.setAttribute("aria-pressed", b.textContent === c ? "true" : "false");
+    });
+    resetCatalogue();
+  }
+  document.querySelectorAll("[data-cat]").forEach(function(el){
+    el.addEventListener("click", function(){
+      setCategory(el.getAttribute("data-cat"));
+      document.getElementById("catalogue").scrollIntoView({ behavior:"smooth" });
+    });
+  });
+
+  /* ---------- search ---------- */
+  document.getElementById("search").addEventListener("input", function(e){
+    state.q = e.target.value;
+    resetCatalogue();
+  });
+
+  /* ---------- quick view modal ---------- */
+  var overlay = document.getElementById("modalOverlay");
+  var modalProduct = null;
+  function openModal(p){
+    modalProduct = p;
+    document.getElementById("modalImg").src = p.image;
+    document.getElementById("modalImg").alt = p.name;
+    document.getElementById("modalCat").textContent = p.category;
+    document.getElementById("modalName").textContent = p.name;
+    document.getElementById("modalRetail").textContent = "Sold by " + p.retailer;
+    var bl = document.getElementById("modalBlurb");
+    bl.textContent = p.blurb || "";
+    bl.style.display = p.blurb ? "" : "none";
+    document.getElementById("modalPrice").textContent = money(p.price);
+    var link = document.getElementById("modalLink");
+    link.href = p.url;
+    overlay.classList.add("open");
+    document.getElementById("closeModal").focus();
+  }
+  function closeModal(){ overlay.classList.remove("open"); }
+  document.getElementById("closeModal").addEventListener("click", closeModal);
+  overlay.addEventListener("click", function(e){ if (e.target === overlay) closeModal(); });
+  document.getElementById("modalAdd").addEventListener("click", function(e){
+    if (modalProduct) addToBoard(modalProduct.id, e.currentTarget);
+  });
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape"){ closeModal(); closeBoard(); }
+  });
+
+  /* ---------- board drawer ---------- */
+  var boardEl = document.getElementById("board");
+  var boardOverlay = document.getElementById("boardOverlay");
+  function openBoard(){
+    boardEl.classList.add("open");
+    boardEl.setAttribute("aria-hidden","false");
+    boardOverlay.classList.add("open");
+    document.getElementById("closeBoard").focus();
+  }
+  function closeBoard(){
+    boardEl.classList.remove("open");
+    boardEl.setAttribute("aria-hidden","true");
+    boardOverlay.classList.remove("open");
+  }
+  document.getElementById("openBoard").addEventListener("click", openBoard);
+  document.getElementById("closeBoard").addEventListener("click", closeBoard);
+  boardOverlay.addEventListener("click", closeBoard);
+  ["dragover","dragenter"].forEach(function(ev){
+    boardEl.addEventListener(ev, function(e){ e.preventDefault(); boardEl.classList.add("drag-over"); });
+  });
+  ["dragleave","drop"].forEach(function(ev){
+    boardEl.addEventListener(ev, function(e){ e.preventDefault(); boardEl.classList.remove("drag-over"); });
+  });
+  boardEl.addEventListener("drop", function(e){
+    var id = e.dataTransfer.getData("text/plain");
+    if (id && byId(id)) addToBoard(id);
+  });
+  /* also allow dropping anywhere on the overlay while the board is open */
+  boardOverlay.addEventListener("dragover", function(e){ e.preventDefault(); });
+  boardOverlay.addEventListener("drop", function(e){
+    e.preventDefault();
+    var id = e.dataTransfer.getData("text/plain");
+    if (id && byId(id)) addToBoard(id);
+  });
+
+  var nameInput = document.getElementById("bundleName");
+  nameInput.value = localStorage.getItem(LS_NAME) || "";
+  nameInput.addEventListener("input", persistBoard);
+  document.getElementById("clearBoard").addEventListener("click", function(){
+    board = {}; persistBoard(); renderBoard();
+    document.getElementById("saveConfirm").textContent = "";
+  });
+  document.getElementById("saveBundle").addEventListener("click", function(){
+    persistBoard();
+    var name = nameInput.value.trim();
+    document.getElementById("saveConfirm").textContent =
+      "Bundle " + (name ? "“" + name + "” " : "") + "saved on this device — " +
+      boardCount() + " item" + (boardCount() === 1 ? "" : "s") + ", " + money(boardTotal()) + ".";
+  });
+
+  /* ---------- kelvin slider (design preview) ---------- */
+  var kelvin = document.getElementById("kelvin");
+  var kelvinVal = document.getElementById("kelvinVal");
+  var swatch = document.getElementById("kelvinSwatch");
+  function kelvinColor(k){
+    /* approximate glow colour: warm amber at 2700K to cool daylight at 5000K */
+    var t = (k - 2700) / (5000 - 2700);
+    function mix(a,b){ return Math.round(a + (b - a) * t); }
+    return "rgb(" + mix(255,226) + "," + mix(176,236) + "," + mix(102,255) + ")";
+  }
+  function syncKelvin(){
+    kelvinVal.textContent = kelvin.value + "K";
+    swatch.style.background = "radial-gradient(circle at 50% 60%, #FFFDF6 0%, " + kelvinColor(+kelvin.value) + " 78%)";
+  }
+  kelvin.addEventListener("input", syncKelvin);
+  syncKelvin();
+
+  /* ---------- init ---------- */
+  renderBoard();
+  resetCatalogue();
+})();
+</script>
+</body>
+</html>
